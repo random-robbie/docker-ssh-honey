@@ -1,5 +1,5 @@
 FROM alpine:3.6
-RUN apk add --no-cache git libssh-dev screen gcc musl-dev nano openssl build-base bash openssh
+RUN apk add --no-cache git libssh-dev screen gcc musl-dev nano openssl build-base bash openssh geoip
 RUN git clone https://github.com/droberson/ssh-honeypot.git
 WORKDIR /ssh-honeypot/
 RUN make
