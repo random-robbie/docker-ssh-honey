@@ -8,4 +8,5 @@ RUN chmod 777 /ssh-honeypot/bin/ssh-honeypot
 RUN mv /ssh-honeypot/bin/ssh-honeypot /bin/ssh-honeypot
 EXPOSE 22
 ADD entrypoint.sh /entrypoint.sh
+RUN chmod 777 /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
