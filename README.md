@@ -13,35 +13,6 @@ This program listens for incoming ssh connections and logs the ip
 address, username, and password used. This was written to gather
 rudimentary intelligence on brute force attacks.
 
-## Quickstart
-
-### Linux
-
-Make sure libssh is installed
-
-    $ apt install libssh-dev
-
-### OSX
-
-Make sure that xcode is up to date.
-
-Install libssh
-
-    $ brew install libssh
-
-Specify MakefileOSX with make:
-
-    $ make -f MakefileOSX
-
-## Build and Run
-
-    $ make
-    $ ssh-keygen -t rsa -f ./ssh-honeypot.rsa
-    $ bin/ssh-honeypot -r ./ssh-honeypot.rsa
-
-## Usage
-
-    $ bin/ssh-honeypot -h
 
 ## Syslog facilities
 
