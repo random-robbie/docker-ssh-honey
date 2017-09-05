@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install libssh-dev -y
 RUN make
 RUN ssh-keygen -t rsa -f ./ssh-honeypot.rsa
-#RUN bin/ssh-honeypot -r ./ssh-honeypot.rsa
+RUN chmod 777 /ssh-honeypot/bin/ssh-honeypot
 EXPOSE 22
-ENTRYPOINT [bin/ssh-honeypot]
+ENTRYPOINT [/ssh-honeypot/bin/ssh-honeypot]
 CMD ["-r ./ssh-honeypot.rsa -p 22 -u nobody"]
