@@ -1,6 +1,7 @@
 # docker-ssh-honey
 SSH Honey pot for docker
 
+Using Alpine as base image now to take container from 1GB to around 118MB
 
 Using https://github.com/droberson/ssh-honeypot
 
