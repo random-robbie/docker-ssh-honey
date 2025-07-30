@@ -1,62 +1,48 @@
-# docker-ssh-honey
+# Docker SSH Honeypot
 
-`https://hub.docker.com/r/txt3rob/docker-ssh-honey`
+A simple SSH honeypot in a Docker container. It logs all IP addresses, usernames, and passwords used to attempt to log in.
 
-Start `docker run  -p 22:22 -it txt3rob/docker-ssh-honey`
+This container runs a Python-based honeypot that listens on port `2222`. Any connection attempts to this port will be logged.
 
+## How It Works
 
-SSH Honey pot for docker
+The `Dockerfile` sets up an Ubuntu environment with a Python script (`entrypoint.sh`) that acts as a low-interaction SSH honeypot. When someone tries to connect to the honeypot, it captures the credentials they use and logs them to the container's output, then disconnects the client.
 
-Using Alpine as base image now to take container from 1GB to around 118MB
+## How to Use
 
-Using https://github.com/droberson/ssh-honeypot
+### 1. Build the Docker Image
+```sh
+docker build -t ssh-honeypot .
+```
 
-FROM THE README
+### 2. Run the Container
+To run the honeypot and expose it on port `2222` of your host machine:
+```sh
+docker run -d --name ssh-honeypot -p 2222:2222 ssh-honeypot
+```
+This command maps the host's port 2222 to the container's port 2222, where the honeypot is listening.
 
-# SSH Honeypot
+### 3. View Logs
+All login attempts are logged to the container's standard output. You can view them using the `docker logs` command:
+```sh
+# View all logs
+docker logs ssh-honeypot
 
-This program listens for incoming ssh connections and logs the ip
-address, username, and password used. This was written to gather
-rudimentary intelligence on brute force attacks.
+# Follow logs in real-time
+docker logs -f ssh-honeypot
+```
+An example log entry will look like this:
+```
+Honeypot listening on port 2222...
+Connection from: ('127.0.0.1', 54321)
+Username: root
+Password: password123
+```
 
+## Disclaimer
 
-## Syslog facilities
+This is a honeypot and is intended to be a target. Do not run this on a production server or a machine with sensitive information. Use it for research and educational purposes only.
 
-As of version 0.0.5, this supports logging to syslog. This feature
-is toggled with the -s flag. It is up to you to configure your
-syslog facilities appropriately. This logs to LOG_AUTHPRIV which is
-typically /var/log/auth.log. You may want to modify this to use
-one of the LOG_LOCAL facilities if you are worried about password
-leakage.
-
-This was implemented to aggregate the data from several hosts into
-a centralized spot.
-
-## Dropping privileges
-
-As of version 0.0.8, you can drop root privileges of this program
-after binding to a privileged port. You can now run this as _nobody_
-on port 22 for example instead of root, but have to initially start it
-as root:
-
-	$ sudo bin/ssh-honeypot -p 22 -u nobody
-	
-Beware that this chowns the logfile to the user specified as well.
-
-## Changing the Banner
-
-List available banners
-
-    $ bin/ssh-honeypot -b
-
-Set banner string
-
-    $ bin/ssh-honeypot -b "my banner string"
-
-Set banner by index
-
-    $ bin/ssh-honeypot -i <banner index>
-
-Use a VPS from DO
+## Use a VPS from DO
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=e22bbff5f6f1&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
